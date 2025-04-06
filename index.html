@@ -54,7 +54,14 @@
         .logo {
             display: flex;
             align-items: center;
+			margin-bottom: 20px;
+            transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
         }
+		
+		.logo:hover {
+		    transform: scale(1.03); /* 添加悬停时的缩放效果 */
+		    filter: drop-shadow(0 0 10px rgba(80, 227, 194, 0.5)); /* 增大光晕范围 */
+		}
         
         .logo img {
             height: 50px;
@@ -111,7 +118,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://pic1.imgdb.cn/item/67ef18810ba3d5a1d7ec74be.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/67ef18810ba3d5a1d7ec74be.jpg');
             background-size: cover;
             background-position: center;
             margin-bottom: 60px;
@@ -264,7 +271,7 @@
                 transform: translateY(0) scale(1);
             }
             50% {
-                transform: translateY(-15px) scale(1.03);
+                transform: translateY(-10px) scale(1.03);
             }
             100% {
                 transform: translateY(0) scale(1);
@@ -291,7 +298,7 @@
         .download {
             padding: 80px 0;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('https://pic1.imgdb.cn/item/67ef18a50ba3d5a1d7ec74d1.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/67ef18a50ba3d5a1d7ec74d1.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -430,7 +437,7 @@
         }
         
         .footer-logo:hover {
-            transform: scale(1.5); /* 添加悬停时的缩放效果 */
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
             filter: drop-shadow(0 0 15px rgba(80, 227, 194, 1.0)); /* 增大光晕范围 */
         }
         
@@ -507,12 +514,12 @@
         <div class="nav-container">
             <div class="logo">
                 <img src="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" alt="生电服务器Logo">
-                <h1>TimeRuins - Minecraft JavaEdition</h1>
+                <h1>TimeRuins - Minecraft Multiplayer</h1>
             </div>
             <ul class="nav-links">
                 <li><a href="#home">首页</a></li>
                 <li><a href="#features">特色</a></li>
-                <li><a href="#server-info">服务器</a></li>
+                <li><a href="#server-info">关于</a></li>
                 <li><a href="#download">下载</a></li>
                 <li><a href="#community">社区</a></li>
 				<li class="mute-button" id="muteButton">
