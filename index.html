@@ -80,12 +80,13 @@
             color: #e0e0e0;
             text-decoration: none;
             font-size: 18px;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.3s; /* 添加 transform 过渡效果 */
             position: relative;
         }
         
         .nav-links a:hover {
             color: #50e3c2;
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
         }
         
         .nav-links a::after {
@@ -156,8 +157,8 @@
         
         .btn:hover {
             background-color: #3cd0a9;
-            transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(80, 227, 194, 0.8);
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
+            box-shadow: 0 0 20px rgba(80, 227, 194, 0.8);
         }
         
         /* 服务器特色 */
@@ -171,6 +172,11 @@
             font-size: 36px;
             color: #50e3c2;
             position: relative;
+            transition: color 0.3s; /* 添加颜色过渡效果 */
+        }
+        
+        .section-title:hover {
+            color: #3cd0a9; /* 悬停时颜色变化 */
         }
         
         .section-title::after {
@@ -201,7 +207,7 @@
         }
         
         .feature-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02); /* 添加悬停时的缩放效果 */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
         }
         
@@ -245,11 +251,10 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        /* 添加悬停效果 */
         .info-card:hover {
             background-color: rgba(80, 227, 194, 0.1);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px) scale(1.03); /* 添加悬停时的缩放效果 */
             animation: float 2s infinite ease-in-out;
         }
         
@@ -335,7 +340,7 @@
         
         .download-btn-primary:hover {
             background-color: #3cd0a9;
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
             box-shadow: 0 0 20px rgba(80, 227, 194, 0.8);
         }
         
@@ -348,7 +353,7 @@
         
         .download-btn-secondary:hover {
             background-color: rgba(80, 227, 194, 0.1);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
             box-shadow: 0 0 15px rgba(80, 227, 194, 0.5);
         }
         
@@ -421,10 +426,16 @@
         
         .footer-logo {
             margin-bottom: 20px;
+            transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
+        }
+        
+        .footer-logo:hover {
+            transform: scale(1.5); /* 添加悬停时的缩放效果 */
+            filter: drop-shadow(0 0 15px rgba(80, 227, 194, 1.0)); /* 增大光晕范围 */
         }
         
         .footer-logo img {
-            height: 60px;
+            height: 75px;
         }
         
         .social-links {
@@ -451,12 +462,17 @@
         .social-links a:hover {
             background-color: #50e3c2;
             color: #000;
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.1); /* 添加悬停时的缩放效果 */
         }
         
         .copyright {
             color: #666;
             font-size: 14px;
+            transition: color 0.3s; /* 添加颜色过渡效果 */
+        }
+        
+        .copyright:hover {
+            color: #50e3c2; /* 悬停时颜色变化 */
         }
         
         /* 响应式设计 */
@@ -687,7 +703,7 @@
     <footer>
         <div class="footer-content">
             <a href="https://afaristudio.mysxl.cn" class="footer-logo">
-				<img src="https://pic1.imgdb.cn/item/67ef1e850ba3d5a1d7ec765e.png" alt="工作室Logo">
+				<img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
             </a>
             </div>
 			<p class="copyright">Powerd By Theceus</p>
