@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeRuins | Minecraft插件服</title>
-    <link rel="icon" href="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" type="image/png">
+	<link rel="icon" href="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" type="image/png">
     
-    <!-- 新增Minecraft字体 -->
-    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
-    <!-- 新增粒子效果库 -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
-    <style>
+	<style>
         /* 全局样式 */
         * {
             margin: 0;
@@ -59,14 +54,14 @@
         .logo {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+			margin-bottom: 20px;
             transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
         }
-        
-        .logo:hover {
-            transform: scale(1.03); /* 添加悬停时的缩放效果 */
-            filter: drop-shadow(0 0 10px rgba(80, 227, 194, 0.5)); /* 增大光晕范围 */
-        }
+		
+		.logo:hover {
+		    transform: scale(1.03); /* 添加悬停时的缩放效果 */
+		    filter: drop-shadow(0 0 10px rgba(80, 227, 194, 0.5)); /* 增大光晕范围 */
+		}
         
         .logo img {
             height: 50px;
@@ -227,7 +222,16 @@
             font-size: 48px;
             margin-bottom: 20px;
             color: #50e3c2;
-            animation: blockAppear 1s ease-out;
+        }
+        
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .feature-card p {
+            color: #b0b0b0;
         }
         
         /* 服务器信息 */
@@ -263,14 +267,15 @@
         
         /* 悬浮动画 */
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes blockAppear {
-            0% { transform: scale(0) rotate(0deg); opacity: 0; }
-            80% { transform: scale(1.2) rotate(360deg); opacity: 1; }
-            100% { transform: scale(1) rotate(720deg); }
+            0% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-10px) scale(1.03);
+            }
+            100% {
+                transform: translateY(0) scale(1);
+            }
         }
         
         .info-icon {
@@ -477,49 +482,6 @@
             color: #50e3c2; /* 悬停时颜色变化 */
         }
         
-        /* 新增粒子画布样式 */
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* 新增像素边框效果 */
-        .pixel-border {
-            position: relative;
-            border: 2px solid #50e3c2 !important;
-        }
-        .pixel-border::before {
-            content: '';
-            position: absolute;
-            top: -4px;
-            left: -4px;
-            right: -4px;
-            bottom: -4px;
-            border: 2px solid rgba(80, 227, 194, 0.3);
-            pointer-events: none;
-        }
-
-        /* 新增滚动动画 */
-        [data-scroll] {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
-        }
-        [data-scroll].visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 优化按钮点击效果 */
-        .btn:active {
-            transform: scale(0.95) !important;
-        }
-        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .nav-links {
@@ -547,9 +509,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- 粒子容器 -->
-    <div id="particles-js"></div>
-
     <!-- 导航栏 -->
     <nav>
         <div class="nav-container">
@@ -563,14 +522,14 @@
                 <li><a href="#server-info">关于</a></li>
                 <li><a href="#download">下载</a></li>
                 <li><a href="#community">社区</a></li>
-                <li class="mute-button" id="muteButton">
+				<li class="mute-button" id="muteButton">
                     <i class="fas fa-volume-up" id="volumeIcon"></i>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- 背景音乐 -->
+	<!-- 背景音乐 -->
     <audio id="bgMusic" src="audio/Beginning_2-C418.mp3" loop></audio>
 
     <script>
@@ -586,6 +545,7 @@
         window.onload = function() {
             bgMusic.play().catch(error => {
                 console.log('Automatic playback failed:', error);
+                // 提示用户点击以播放音乐
                 // alert('点击本网页任意位置触发彩蛋哦');
             });
         };
@@ -621,7 +581,7 @@
     </script>
 
     <!-- 英雄区域 -->
-    <section class="hero" id="home" data-scroll>
+    <section class="hero" id="home">
         <div class="hero-content">
             <h2>欢迎来到TimeRuins插件服</h2>
             <p>一个充满创意、冒险和乐趣的Minecraft 1.21.4生存服务器，加入我们，一起建造、探索和生存！</p>
@@ -648,13 +608,13 @@
                     <h3>活跃社区</h3>
                     <p>友好的玩家社区，定期举办活动，结交志同道合的朋友，共同建设服务器。</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-layer-group"></i>
-                    </div>
-                    <h3>多版本兼容</h3>
-                    <p>支持官方发布的所有正式版Minecraft，基岩版和Java版互通。不过为了减少新版本方块缺失带来的问题，建议使用1.21+进服。</p>
-                </div>
+				<div class="feature-card">
+				    <div class="feature-icon">
+				        <i class="fas fa-layer-group"></i>
+				    </div>
+				    <h3>多版本兼容</h3>
+				    <p>支持官方发布的所有正式版Minecraft，基岩版和Java版互通。不过为了减少新版本方块缺失带来的问题，建议使用1.21+进服。</p>
+				</div>
             </div>
         </div>
     </section>
@@ -750,9 +710,10 @@
     <footer>
         <div class="footer-content">
             <a href="https://afaristudio.mysxl.cn" class="footer-logo">
-                <img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
+				<img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
             </a>
-            <p class="copyright">Powerd By Theceus</p>
+            </div>
+			<p class="copyright">Powerd By Theceus</p>
             <p class="copyright">© 2025 Afari Studio 保留所有权利</p>
         </div>
     </footer>
@@ -798,75 +759,6 @@
                 overlay.addEventListener('click', function() {
                     document.body.removeChild(overlay);
                 });
-            });
-        });
-
-        // 粒子效果配置
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80 },  // 减少数量提升性能
-                color: { value: "#50e3c2" },
-                shape: {
-                    type: "edge",  // 使用方形粒子
-                    polygon: { nb_sides: 4 }
-                },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" }
-                }
-            }
-        });
-
-        // 滚动动画触发
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, { threshold: 0.1 });
-
-        document.querySelectorAll('[data-scroll]').forEach((element) => {
-            observer.observe(element);
-        });
-
-        // 新增方块点击效果
-        document.addEventListener('click', (e) => {
-            const block = document.createElement('div');
-            block.style.cssText = `
-                position: fixed;
-                width: 10px;
-                height: 10px;
-                background: #50e3c2;
-                pointer-events: none;
-                animation: clickBlock 1s forwards;
-            `;
-            block.style.left = e.clientX + 'px';
-            block.style.top = e.clientY + 'px';
-            document.body.appendChild(block);
-            
-            setTimeout(() => block.remove(), 1000);
-        });
-
-        // 添加按键音效
-        const clickSound = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=2414');
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('click', () => {
-                clickSound.currentTime = 0;
-                clickSound.play();
             });
         });
     </script>
