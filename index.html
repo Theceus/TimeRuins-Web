@@ -842,33 +842,6 @@
         document.querySelectorAll('[data-scroll]').forEach((element) => {
             observer.observe(element);
         });
-
-        // 新增方块点击效果
-        document.addEventListener('click', (e) => {
-            const block = document.createElement('div');
-            block.style.cssText = `
-                position: fixed;
-                width: 10px;
-                height: 10px;
-                background: #50e3c2;
-                pointer-events: none;
-                animation: clickBlock 1s forwards;
-            `;
-            block.style.left = e.clientX + 'px';
-            block.style.top = e.clientY + 'px';
-            document.body.appendChild(block);
-            
-            setTimeout(() => block.remove(), 1000);
-        });
-
-        // 添加按键音效
-        const clickSound = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=2414');
-        document.querySelectorAll('a, button').forEach(el => {
-            el.addEventListener('click', () => {
-                clickSound.currentTime = 0;
-                clickSound.play();
-            });
-        });
     </script>
 </body>
 </html>
