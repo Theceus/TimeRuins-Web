@@ -4,13 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TimeRuins | Minecraft插件服</title>
-    <link rel="icon" href="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" type="image/png">
-    
-    <!-- 新增Minecraft字体 -->
-    <link href="https://fonts.cdnfonts.com/css/minecraft-4" rel="stylesheet">
-    <!-- 新增粒子效果库 -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    
+    <link rel="icon" href="https://i.imgur.com/Wx4HyWz.png" type="image/png">
+        
     <style>
         /* 全局样式 */
         * {
@@ -24,7 +19,7 @@
             background-color: #0a0a0a;
             color: #e0e0e0;
             line-height: 1.6;
-            background-image: url('https://pic1.imgdb.cn/item/67ef17730ba3d5a1d7ec7474.jpg');
+            background: linear-gradient(to right, #050032, #003204);
             background-attachment: fixed;
             background-position: center;
             background-repeat: no-repeat;
@@ -44,7 +39,7 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 150;
         }
         
         .nav-container {
@@ -116,6 +111,27 @@
             width: 100%;
         }
         
+        /* 汉堡菜单 */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #50e3c2;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+		
+		/* 显示汉堡菜单 */
+		.hamburger {
+		    display: block;
+		    z-index: 100;
+		}
+        
         /* 英雄区域 */
         .hero {
             height: 80vh;
@@ -123,7 +139,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/67ef18810ba3d5a1d7ec74be.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://i.imgur.com/sMYMeiS.jpg');
             background-size: cover;
             background-position: center;
             margin-bottom: 60px;
@@ -257,8 +273,8 @@
         .info-card:hover {
             background-color: rgba(80, 227, 194, 0.1);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
-            transform: translateY(-10px) scale(1.03); /* 添加悬停时的缩放效果 */
-            animation: float 2s infinite ease-in-out;
+            transform: translateY(-5px) scale(1.03); /* 添加悬停时的缩放效果 */
+            animation: float 1s infinite ease-in-out;
         }
         
         /* 悬浮动画 */
@@ -293,7 +309,7 @@
         .download {
             padding: 80px 0;
             text-align: center;
-            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/67ef18a50ba3d5a1d7ec74d1.jpg');
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://i.imgur.com/nfQaXS1.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -477,17 +493,6 @@
             color: #50e3c2; /* 悬停时颜色变化 */
         }
         
-        /* 新增粒子画布样式 */
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
         /* 新增像素边框效果 */
         .pixel-border {
             position: relative;
@@ -522,10 +527,33 @@
         
         /* 响应式设计 */
         @media (max-width: 768px) {
+            /* 隐藏导航链接 */
             .nav-links {
                 display: none;
+                flex-direction: column;
+                align-items: center;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0.95);
+                width: 100%;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.3s ease;
             }
             
+            .nav-links.active {
+                display: flex;
+                max-height: 500px;
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+                        
             .hero h2 {
                 font-size: 36px;
             }
@@ -542,83 +570,61 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .download-btn {
+                width: 80%;
+                margin-bottom: 15px;
+            }
+            
+            .features-grid, .info-grid, .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card, .info-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .feature-icon, .info-icon {
+                font-size: 36px;
+            }
+            
+            .footer-logo img {
+                height: 60px;
+            }
+            
+            .hero-content {
+                padding: 20px;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- 粒子容器 -->
-    <div id="particles-js"></div>
-
     <!-- 导航栏 -->
     <nav>
         <div class="nav-container">
             <div class="logo">
-                <img src="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" alt="生电服务器Logo">
-                <h1>TimeRuins - Minecraft Multiplayer</h1>
+                <img src="https://i.imgur.com/Wx4HyWz.png" alt="生电服务器Logo">
+                <h1>TimeRuins</h1>
             </div>
+            
+            <!-- 添加汉堡菜单 -->
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            
             <ul class="nav-links">
                 <li><a href="#home">首页</a></li>
                 <li><a href="#features">特色</a></li>
                 <li><a href="#server-info">关于</a></li>
                 <li><a href="#download">下载</a></li>
                 <li><a href="#community">社区</a></li>
-                <li class="mute-button" id="muteButton">
-                    <i class="fas fa-volume-up" id="volumeIcon"></i>
-                </li>
             </ul>
         </div>
     </nav>
-
-    <!-- 背景音乐 -->
-    <audio id="bgMusic" src="audio/Beginning_2-C418.mp3" loop></audio>
-
-    <script>
-        // 获取音乐元素和静音按钮
-        const bgMusic = document.getElementById('bgMusic');
-        const muteButton = document.getElementById('muteButton');
-        const volumeIcon = document.getElementById('volumeIcon');
-
-        // 标志，用于确保音乐只播放一次
-        let hasPlayed = false;
-
-        // 尝试在页面加载时自动播放音乐
-        window.onload = function() {
-            bgMusic.play().catch(error => {
-                console.log('Automatic playback failed:', error);
-                // alert('点击本网页任意位置触发彩蛋哦');
-            });
-        };
-
-        // 监听用户点击事件
-        document.addEventListener('click', function() {
-            if (!hasPlayed) {
-                // 播放音乐
-                bgMusic.play();
-                hasPlayed = true;
-            }
-        });
-
-        // 监听音乐播放结束事件，确保循环播放
-        bgMusic.addEventListener('ended', function() {
-            this.currentTime = 0;
-            this.play();
-        });
-
-        // 静音按钮点击事件
-        muteButton.addEventListener('click', function(e) {
-            e.stopPropagation(); // 阻止事件冒泡，避免触发页面点击事件
-            if (bgMusic.muted) {
-                // 取消静音
-                bgMusic.muted = false;
-                volumeIcon.className = 'fas fa-volume-up';
-            } else {
-                // 静音
-                bgMusic.muted = true;
-                volumeIcon.className = 'fas fa-volume-mute';
-            }
-        });
-    </script>
 
     <!-- 英雄区域 -->
     <section class="hero" id="home" data-scroll>
@@ -719,25 +725,25 @@
             <b>查看玩家在服务器上创造的精彩作品</b>
             <div class="gallery">
                 <div class="gallery-item">
-                    <img src="https://pic1.imgdb.cn/item/67ef30200ba3d5a1d7ec7bc8.png" alt="社区作品1">
+                    <img src="https://i.imgur.com/qZuILXh.jpg" alt="社区作品1">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://pic1.imgdb.cn/item/67ef30200ba3d5a1d7ec7bc9.png" alt="社区作品2">
+                    <img src="https://i.imgur.com/7yrMWh4.jpg" alt="社区作品2">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://pic1.imgdb.cn/item/67ef30210ba3d5a1d7ec7bca.png" alt="社区作品3">
+                    <img src="https://i.imgur.com/NknxrWW.jpg" alt="社区作品3">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
                 <div class="gallery-item">
-                    <img src="https://pic1.imgdb.cn/item/67ef30240ba3d5a1d7ec7bce.png" alt="社区作品4">
+                    <img src="https://i.imgur.com/RKWfaHQ.jpg" alt="社区作品4">
                     <div class="gallery-overlay">
                         <i class="fas fa-search-plus"></i>
                     </div>
@@ -750,7 +756,7 @@
     <footer>
         <div class="footer-content">
             <a href="https://afaristudio.netlify.app" class="footer-logo">
-                <img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
+                <img src="https://i.imgur.com/vyOEWrK.png" alt="工作室Logo">
             </a>
             <p class="copyright">Powerd By Theceus</p>
             <p class="copyright">© 2025 Afari Studio 保留所有权利</p>
@@ -801,35 +807,28 @@
             });
         });
 
-        // 粒子效果配置
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 80 },  // 减少数量提升性能
-                color: { value: "#50e3c2" },
-                shape: {
-                    type: "edge",  // 使用方形粒子
-                    polygon: { nb_sides: 4 }
-                },
-                opacity: { value: 0.5 },
-                size: { value: 3 },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
-                }
-            },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: true, mode: "repulse" }
-                }
+        // 汉堡菜单功能
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击导航链接后关闭菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
             }
         });
-
+        
         // 滚动动画触发
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
