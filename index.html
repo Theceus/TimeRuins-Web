@@ -3,1318 +3,1037 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>轶说新语 - 新观点，新观念</title>
-	<link rel="icon" href="https://pic1.imgdb.cn/item/68141ce958cb8da5c8d64934.png" type="image/png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>TimeRuins | Minecraft插件服</title>
+    <link rel="icon" href="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" type="image/png">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        
     <style>
-		* {
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
-			font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
-
-		:root {
-			--dark-bg: #121212;
-			--dark-section: #1e1e1e;
-			--accent-color: #00b084;
-			--secondary-color: #2196f3;
-			--text-color: #f5f5f5;
-			--muted-color: #b0b0b0;
-		}
-
-		body {
-			background-color: var(--dark-bg);
-			color: var(--text-color);
-			line-height: 1.6;
-			overflow-x: hidden;
-		}
-
-		body::before {
-			content: '';
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            background: linear-gradient(to right, #050032, #003204);
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 添加加载动画样式 */
+        .loader {
 			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: radial-gradient(circle, rgba(34, 193, 195, 0.1) 1px, transparent 1px);
-			background-size: 20px 20px;
-			opacity: 0.3;
-			z-index: -1;
-		}
-
-		/* 加载动画样式 */
-		#loader {
-			position: fixed;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(to right, #010032, #002f32);
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			z-index: 9999;
-			transition: opacity 1s ease-in-out;
-		}
-
-		.loader-item {
-			width: 12px;
-			height: 60px;
-			margin: 0 2px;
-			background-color: #fff;
-			animation: wave 1.2s infinite ease-in-out;
-			animation-delay: var(--delay);
-		}
-
-		@keyframes wave {
-			0%, 40%, 100% {
-				transform: scale(0.4);
-			}
-			20% {
-				transform: scale(1);
-			}
-		}
-
-		header {
-			background-color: rgba(0, 0, 0, 0.8);
-			padding: 2rem 0;
-			text-align: center;
-			border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-			position: relative;
-			overflow: hidden;
-			border-radius: 0 0 20px 20px;
-		}
-
-		header::after {
-			content: '';
-			position: absolute;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			height: 2px;
-			background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-		}
-
-		.container {
-			max-width: 1200px;
-			margin: 0 auto;
-			padding: 0 2rem;
-		}
-
-		.profile-section {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			margin: 3rem 0;
-			text-align: center;
-			position: relative;
-			padding: 2rem;
-			background-color: var(--dark-section);
-			border-radius: 20px;
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-		}
-
-		.profile-section::before {
-			content: '';
-			position: absolute;
-			top: -50px;
-			left: -50px;
-			width: 200px;
-			height: 200px;
-			border-radius: 50%;
-			background: radial-gradient(circle, rgba(33, 150, 243, 0.2) 0%, rgba(33, 150, 243, 0) 70%);
-			z-index: -1;
-			animation: floating 8s ease-in-out infinite;
-		}
-
-		@keyframes floating {
-			0%, 100% { transform: translate(0, 0); }
-			50% { transform: translate(20px, -20px); }
-		}
-
-		.profile-pic-container {
-			position: relative;
-			width: 300px;
-			height: 300px;
-			margin-bottom: 3rem;
-			perspective: 1000px;
-		}
-
-		.profile-pic-wrapper {
-			position: relative;
-			width: 100%;
-			height: 100%;
-			transform-style: preserve-3d;
-			transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-		}
-
-		.profile-pic-wrapper:hover {
-			transform: rotateY(180deg);
-		}
-
-		.profile-pic-front, .profile-pic-back {
-			position: absolute;
-			width: 100%;
-			height: 100%;
-			backface-visibility: hidden;
-			border-radius: 50%;
-			overflow: hidden;
-			border: 4px solid var(--secondary-color);
-			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-		}
-
-		.profile-pic-back {
-			transform: rotateY(180deg);
-			background-color: var(--dark-section);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			flex-direction: column;
-			padding: 2rem;
-			box-sizing: border-box;
-		}
-
-		.profile-pic-back h3 {
-			color: var(--accent-color);
-			margin-bottom: 1rem;
-		}
-
-		.profile-pic-back p {
-			font-size: 0.9rem;
-			color: var(--muted-color);
-			text-align: center;
-		}
-
-		.profile-info {
-			max-width: 700px;
-			margin: 0 auto;
-		}
-
-		h1 {
-			font-size: 3rem;
-			margin-bottom: 1rem;
-			color: var(--accent-color);
-			background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			position: relative;
-			display: inline-block;
-		}
-
-		h1::after {
-			content: '';
-			position: absolute;
-			bottom: -5px;
-			left: 0;
-			width: 100%;
-			height: 3px;
-			background: linear-gradient(90deg, var(--accent-color), var(--secondary-color));
-		}
-
-		.subtitle {
-			font-size: 1.5rem;
-			color: var(--secondary-color);
-			margin-bottom: 2rem;
-		}
-
-		.tagline {
-			font-style: italic;
-			color: var(--muted-color);
-			margin-bottom: 2rem;
-			font-size: 1.1rem;
-		}
-
-		.search-section {
-			background-color: var(--dark-section);
-			padding: 2rem;
-			margin: 3rem 0;
-			border-radius: 20px;
-			box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-			position: relative;
-			overflow: hidden;
-		}
-
-		.search-section::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(45deg, rgba(33, 150, 243, 0.05) 25%, transparent 25%, transparent 50%, rgba(33, 150, 243, 0.05) 50%, rgba(33, 150, 243, 0.05) 75%, transparent 75%, transparent);
-			background-size: 20px 20px;
-			opacity: 0.3;
-			border-radius: 20px;
-		}
-
-		.search-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-			margin-bottom: 1.5rem;
-		}
-
-		.search-input {
-			display: flex;
-			margin-bottom: 1.5rem;
-			position: relative;
-		}
-
-		.search-input input {
-			flex: 1;
-			padding: 1rem 1.5rem;
-			padding-left: 2.5rem;
-			border: none;
-			border-radius: 5px;
-			font-size: 1rem;
-			background-color: #333;
-			color: var(--text-color);
-			transition: all 0.3s;
-		}
-
-		.search-input input:focus {
-			box-shadow: 0 0 0 2px var(--secondary-color);
-			outline: none;
-			background-color: #444;
-		}
-
-		.search-input input::placeholder {
-			color: var(--muted-color);
-		}
-
-		.search-input i {
-			position: absolute;
-			left: 1rem;
-			top: 50%;
-			transform: translateY(-50%);
-			color: var(--muted-color);
-			transition: color 0.3s;
-		}
-
-		.search-input input:focus + i {
-			color: var(--secondary-color);
-		}
-
-		.quote-categories {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 1rem;
-			margin-bottom: 2rem;
-			justify-content: center;
-		}
-
-		.category {
-			max-width: 100%;
-			padding: 0.5rem 1.2rem;
-			background-color: rgba(255, 255, 255, 0.1);
-			color: var(--text-color);
-			border-radius: 25px;
-			cursor: pointer;
-			transition: all 0.3s;
-			font-weight: 500;
-			position: relative;
-			overflow: hidden;
-			border: none;
-		}
-
-		.category::before {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: -100%;
-			width: 100%;
-			height: 100%;
-			background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-			transition: all 0.5s;
-		}
-
-		.category:hover::before {
-			left: 100%;
-		}
-
-		.category.active, .category:hover {
-			background-color: var(--accent-color);
-			box-shadow: 0 0 15px rgba(255, 87, 34, 0.3);
-		}
-
-		.category:active {
-			transform: scale(0.98);
-		}
-
-		.quote-container {
-			margin-top: 2rem;
-			overflow-y: hidden;
-			position: relative;
-		}
-
-		.quote-card {
-			background-color: rgba(30, 30, 30, 0.8);
-			padding: 1.5rem;
-			margin-bottom: 1.5rem;
-			border-radius: 12px;
-			transition: all 0.3s ease;
-			position: relative;
-			overflow: hidden;
-			border-left: 4px solid transparent;
-			opacity: 0;
-			transform: translateY(30px);
-		}
-
-		.quote-card.visible {
-			transform: translateY(0);
-			opacity: 1;
-			transition-delay: 0.1s;
-		}
-
-		.quote-card::before {
-			content: '\201C';
-			font-size: 5rem;
-			position: absolute;
-			top: -2rem;
-			left: -1rem;
-			color: rgba(33, 150, 243, 0.1);
-			font-family: Georgia, serif;
-			opacity: 0;
-			transition: all 0.3s;
-		}
-
-		.quote-card.visible::before {
-			opacity: 1;
-		}
-
-		.quote-card::after {
-			content: '\201D';
-			font-size: 5rem;
-			position: absolute;
-			bottom: -4rem;
-			right: -1rem;
-			color: rgba(255, 87, 34, 0.1);
-			font-family: Georgia, serif;
-			opacity: 0;
-			transition: all 0.3s;
-		}
-
-		.quote-card.visible::after {
-			opacity: 1;
-		}
-
-		.quote-card:hover {
-			transform: translateY(-5px);
-			box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-			border-left-color: var(--secondary-color);
-		}
-
-		.quote-text {
-			font-size: 1.2rem;
-			margin-bottom: 1rem;
-			color: var(--text-color);
-			position: relative;
-			z-index: 1;
-			opacity: 0;
-			transition: all 0.3s;
-		}
-
-		.quote-card.visible .quote-text {
-			opacity: 1;
-			transition-delay: 0.2s;
-		}
-
-		.quote-tags {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.5rem;
-			margin-top: 0.5rem;
-			opacity: 0;
-			transform: translateY(10px);
-			transition: all 0.3s;
-		}
-
-		.quote-card.visible .quote-tags {
-			opacity: 1;
-			transform: translateY(0);
-			transition-delay: 0.3s;
-		}
-
-		.quote-tag {
-			background-color: rgba(255, 255, 255, 0.1);
-			padding: 0.2rem 0.5rem;
-			border-radius: 4px;
-			font-size: 0.8rem;
-			transition: all 0.3s;
-		}
-
-		.quote-tag:hover {
-			background-color: var(--secondary-color);
-		}
-
-		/* 分页按钮样式 */
-		.pagination {
-			display: flex;
-			justify-content: center;
-			margin-top: 2rem;
-			gap: 0.5rem;
-			perspective: 1000px;
-		}
-
-		#pagination-container {
-			display: flex;
-			align-items: center;
-		}
-
-		.page-item {
-			margin: 0 5px;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			border-radius: 50%;
-			width: 40px;
-			height: 40px;
-			background-color: rgba(255, 255, 255, 0.1);
-			color: var(--text-color);
-			cursor: pointer;
-			transition: all 0.3s;
-		}
-
-		.page-item.active {
-			background-color: var(--accent-color);
-			color: white;
-			border-radius: 5px;
-			width: auto;
-			min-width: 80px;
-		}
-
-		.page-item:hover:not(.active) {
-			background-color: rgba(255, 255, 255, 0.2);
-		}
-
-		.page-item:disabled {
-			opacity: 0.5;
-			cursor: not-allowed;
-		}
-
-		.page-item i {
-			font-size: 16px;
-		}
-
-		/* 响应式设计 */
-		@media (max-width: 768px) {
-			.profile-pic-container {
-				width: 250px;
-				height: 250px;
-			}
-			
-			h1 {
-				font-size: 2rem;
-			}
-			
-			.subtitle {
-				font-size: 1.2rem;
-			}
-			
-			.quote-text {
-				font-size: 1rem;
-			}
-			
-			#pagination-container {
-				flex-direction: column;
-				align-items: center;
-			}
-			
-			.page-item {
-				margin: 5px 0;
-			}
-		}
-			    		
-	    /* 为分类按钮添加旋转效果 */
-	    .category {
-	        transition: all 0.3s ease, transform 0.3s ease;
-	    }
-	    
-	    .category:hover {
-	        transform: translateY(-2px) rotate(0deg);
-			scale: 1.05;
-	    }
-	
-	    /* 为搜索框添加波纹效果 */
-	    .search-input input:focus {
-	        animation: ripple 3.0s ease-out;
-	    }
-	    
-	    @keyframes ripple {
-	        0% {
-	            box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.4);
-	        }
-	        70% {
-	            box-shadow: 0 0 0 10px rgba(33, 150, 243, 0);
-	        }
-	        100% {
-	            box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
-	        }
-	    }
-		
-	    .footer-container {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100px; /* 根据需要设置高度 */
-            background-color: #121212;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+            opacity: 1;
+			background: linear-gradient(45deg, #006464, #536400);
         }
-		
-        footer {
-            width: 100%;
+        
+        .loader-content {
             text-align: center;
         }
+        
+        .loader-icon {
+				position: relative;
+				width: 100px;
+				height: 100px;
+				animation: rotate 8s linear infinite;
+				border: 10px dashed rgba(0, 0, 0, .2);
+				box-shadow: 0 0 0 10px rgba(0, 0, 0, .5), inset 0 0 0 10px rgba(0, 0, 0, .5);
+        }
+        
+		@keyframes rotate {
+			0% {
+				transform: rotate(360deg);
+			}
+			
+			100% {
+				transform: rotate(0deg);
+			}
+		}
 		
-	    /* 反馈按钮样式 */
-	    #feedback-button {
-	        position: fixed;
-	        bottom: 30px;
-	        left: 50%;
-	        transform: translateX(-50%);
-	        background: linear-gradient(90deg, #00b084, #2196f3);
-	        color: var(--text-color);
-	        border: none;
-	        border-radius: 50px;
-	        padding: 15px 25px;
-	        font-size: 1rem;
-	        cursor: pointer;
-	        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-	        display: flex;
-	        align-items: center;
-	        gap: 10px;
-	        transition: padding 0.3s ease;
-	        z-index: 100;
-	        overflow: hidden;
-	        height: 45px; /* 固定高度 */
-	        white-space: nowrap; /* 禁止文本换行 */
-	    }
-	
-	    /* 默认状态下的按钮文本 */
-	    #feedback-button .default-text {
-	        display: block;
-	        transition: all 0.3s ease;
-	    }
-	
-	    /* 悬停状态下的按钮文本 */
-	    #feedback-button .hover-text {
-	        display: none;
-	        margin-left: 20px;
-	        transition: all 0.3s ease;
-	    }
-	
-	    /* 按钮悬停效果 */
-	    #feedback-button:hover .default-text {
-	        display: none;
-	    }
-	
-	    #feedback-button:hover .hover-text {
-	        display: block;
-	        animation: slideInFromRight 0.3s ease forwards;
-	    }
-	
-	    #feedback-button:hover {
-	        padding: 15px 25px; /* 增加水平方向的padding */
-	    }
-	
-	    /* 按钮动画 */
-	    @keyframes slideInFromRight {
-	        from {
-	            margin-left: 100%;
-	            opacity: 0;
-	        }
-	        to {
-	            margin-left: 20px;
-	            opacity: 1;
-	        }
-	    }
-	
-	    /* 响应式设计 */
-	    @media (max-width: 768px) {
-	        #feedback-button {
-	            bottom: 20px;
-	            padding: 10px 15px;
-	            font-size: 0.9rem;
-	        }
-	    }
+		.loader-icon span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			overflow: hidden;
+		}
+		
+		.loader-icon span:before {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-top: 10px solid #50e3c2;
+			animation: animate 2s linear infinite;
+		}
+		
+		@keyframes animate {
+			0% {
+				left: -100%;
+			}
+			
+			25% {
+				left: 0%;
+			}
+			
+			50%,100% {
+				left: 100%;
+			}
+		}
+		
+		.loader-icon span:nth-child(1) {
+			transform: rotate(0deg);
+		}
+		
+		.loader-icon span:nth-child(2) {
+			transform: rotate(90deg);
+		}
+		
+		.loader-icon span:nth-child(3) {
+			transform: rotate(180deg);
+		}
+		
+		.loader-icon span:nth-child(4) {
+			transform: rotate(270deg);
+		}
+		
+		.loader-icon span:nth-child(1):before {
+			animation-delay: 0s;
+		}
+		
+		.loader-icon span:nth-child(2):before {
+			animation-delay: 0.5s;
+		}
+		
+		.loader-icon span:nth-child(3):before {
+			animation-delay: 1s;
+		}
+		
+		.loader-icon span:nth-child(4):before {
+			animation-delay: 1.5s;
+		}
+		
+        .loader-text {
+            margin-top: 50px;
+            color: #50e3c2;
+            font-size: 18px;
+        }
+        
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+		
+        /* 导航栏 */
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 150;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+            transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
+        }
+        
+        .logo:hover {
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
+            filter: drop-shadow(0 0 10px rgba(80, 227, 194, 0.5)); /* 增大光晕范围 */
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: #50e3c2;
+            text-shadow: 0 0 5px rgba(80, 227, 194, 0.5);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s, transform 0.3s; /* 添加 transform 过渡效果 */
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #50e3c2;
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: #50e3c2;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        /* 汉堡菜单 */
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 100;
+        }
+        
+        .hamburger div {
+            width: 25px;
+            height: 3px;
+            background-color: #50e3c2;
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/681588ae58cb8da5c8d799fe.jpg');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 60px;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 30px;
+            background-color: rgba(0, 0, 0, 0.6);
+            border: 2px solid #50e3c2;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(80, 227, 194, 0.3);
+        }
+        
+        .hero h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(80, 227, 194, 0.7);
+        }
+        
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            color: #e0e0e0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #50e3c2;
+            color: #000;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(80, 227, 194, 0.5);
+        }
+        
+        .btn:hover {
+            background-color: #3cd0a9;
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
+            box-shadow: 0 0 20px rgba(80, 227, 194, 0.8);
+        }
+        
+        /* 服务器特色 */
+        .features {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 36px;
+            color: #50e3c2;
+            position: relative;
+            transition: color 0.3s; /* 添加颜色过渡效果 */
+        }
+        
+        .section-title:hover {
+            color: #3cd0a9; /* 悬停时颜色变化 */
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 3px;
+            background-color: #50e3c2;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02); /* 添加悬停时的缩放效果 */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #50e3c2;
+            animation: blockAppear 1s ease-out;
+        }
+        
+        /* 服务器信息 */
+        .server-info {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 60px 0;
+            border-top: 2px solid #50e3c2;
+            border-bottom: 2px solid #50e3c2;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .info-card {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .info-card:hover {
+            background-color: rgba(80, 227, 194, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px) scale(1.03); /* 添加悬停时的缩放效果 */
+            animation: float 1s infinite ease-in-out;
+        }
+        
+        /* 悬浮动画 */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        @keyframes blockAppear {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            80% { transform: scale(1.2) rotate(360deg); opacity: 1; }
+            100% { transform: scale(1) rotate(720deg); }
+        }
+        
+        .info-icon {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #50e3c2;
+        }
+        
+        .info-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .info-card p {
+            color: #b0b0b0;
+        }
+        
+        /* 下载区域 */
+        .download {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5)), url('https://pic1.imgdb.cn/item/681588ad58cb8da5c8d799f9.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .download h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
+        
+        .download p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .download-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .download-btn {
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .download-btn i {
+            margin-right: 10px;
+        }
+        
+        .download-btn-primary {
+            background-color: #50e3c2;
+            color: #000;
+            box-shadow: 0 0 15px rgba(80, 227, 194, 0.5);
+        }
+        
+        .download-btn-primary:hover {
+            background-color: #3cd0a9;
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
+            box-shadow: 0 0 20px rgba(80, 227, 194, 0.8);
+        }
+        
+        .download-btn-secondary {
+            background-color: transparent;
+            color: #50e3c2;
+            border: 2px solid #50e3c2;
+            box-shadow: 0 0 10px rgba(80, 227, 194, 0.3);
+        }
+        
+        .download-btn-secondary:hover {
+            background-color: rgba(80, 227, 194, 0.1);
+            transform: translateY(-3px) scale(1.05); /* 添加悬停时的缩放效果 */
+            box-shadow: 0 0 15px rgba(80, 227, 194, 0.5);
+        }
+        
+        /* 社区展示 */
+        .community {
+            padding: 60px 0;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 200px;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        .gallery-overlay i {
+            color: #50e3c2;
+            font-size: 48px;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #000;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
+        }
+        
+        .footer-logo:hover {
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
+            filter: drop-shadow(0 0 15px rgba(80, 227, 194, 1.0)); /* 增大光晕范围 */
+        }
+        
+        .footer-logo img {
+            height: 75px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #111;
+            color: #50e3c2;
+            margin: 0 10px;
+            transition: all 0.3s;
+            text-decoration: none;
+            font-size: 24px;
+        }
+        
+        .social-links a:hover {
+            background-color: #50e3c2;
+            color: #000;
+            transform: translateY(-5px) scale(1.1); /* 添加悬停时的缩放效果 */
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 14px;
+            transition: color 0.3s; /* 添加颜色过渡效果 */
+        }
+        
+        .copyright:hover {
+            color: #50e3c2; /* 悬停时颜色变化 */
+        }
+        
+        /* 新增像素边框效果 */
+        .pixel-border {
+            position: relative;
+            border: 2px solid #50e3c2 !important;
+        }
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid rgba(80, 227, 194, 0.3);
+            pointer-events: none;
+        }
+
+        /* 新增滚动动画 */
+        [data-scroll] {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+        [data-scroll].visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 优化按钮点击效果 */
+        .btn:active {
+            transform: scale(0.95) !important;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            /* 隐藏汉堡菜单并控制其显示 */
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0.95);
+                width: 100%;
+                padding: 20px 0;
+                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+                max-height: 0;
+                overflow: hidden;
+                transition: all 0.3s ease;
+            }
+            
+            /* 显示汉堡菜单 */
+            .hamburger {
+                display: block;
+            }
+            
+            /* 汉堡菜单点击后显示导航链接 */
+            .nav-links.active {
+                display: flex;
+                max-height: 300px;
+                animation: slideDown 0.3s ease-out forwards;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    max-height: 0;
+                    opacity: 0;
+                }
+                to {
+                    max-height: 300px;
+                    opacity: 1;
+                }
+            }
+            
+            /* 为汉堡菜单添加动画效果 */
+            .hamburger.active div:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 6.5px);
+            }
+            
+            .hamburger.active div:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .hamburger.active div:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -6.5px);
+            }
+            
+            .nav-links li {
+                margin: 15px 0;
+            }
+                        
+            .hero h2 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .section-title {
+                font-size: 28px;
+            }
+            
+            .download-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .download-btn {
+                width: 80%;
+                margin-bottom: 15px;
+            }
+            
+            .features-grid, .info-grid, .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-card, .info-card {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .feature-icon, .info-icon {
+                font-size: 36px;
+            }
+            
+            .footer-logo img {
+                height: 60px;
+            }
+            
+            .hero-content {
+                padding: 20px;
+            }
+            
+            /* 为移动端优化图片大小 */
+            .gallery-item {
+                height: 180px;
+            }
+            
+            /* 简化英雄区域背景 */
+            .hero {
+                background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5));
+            }
+            
+            /* 调整按钮样式以适应较小的屏幕 */
+            .btn {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+            
+            /* 优化间距 */
+            .section-title {
+                margin-bottom: 30px;
+            }
+            
+            .features, .server-info, .download, .community {
+                padding: 40px 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- 加载动画 -->
-    <div id="loader">
-        <div class="loader-item" style="--delay: -1.1s"></div>
-        <div class="loader-item" style="--delay: -1.0s"></div>
-        <div class="loader-item" style="--delay: -0.9s"></div>
-        <div class="loader-item" style="--delay: -0.8s"></div>
-        <div class="loader-item" style="--delay: -0.7s"></div>
+    <!-- 添加加载动画 -->
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-icon">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+            <div class="loader-text">Loading...</div>
+        </div>
     </div>
 
-    <header>
-        <div class="container">
-            <h1 class="fade-in">轶说新语</h1>
-            <p class="tagline fade-in">" 严肃中带着幽默，犀利中蕴含深意 "</p>
+	
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" alt="生电服务器Logo">
+                <h1>TimeRuins</h1>
+            </div>
+            
+            <!-- 添加汉堡菜单 -->
+            <div class="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#home">首页</a></li>
+                <li><a href="#features">特色</a></li>
+                <li><a href="#server-info">关于</a></li>
+                <li><a href="#download">下载</a></li>
+                <li><a href="#community">社区</a></li>
+            </ul>
         </div>
-    </header>
-    
-    <div class="container">
-        <section class="profile-section fade-in">
-            <div class="profile-pic-container">
-                <div class="profile-pic-wrapper">
-                    <div class="profile-pic-front">
-                        <img src="https://pic1.imgdb.cn/item/68141cef58cb8da5c8d64935.jpg" alt="王轶群老师" style="width: 100%; height: 100%; object-fit: cover;">
+    </nav>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home" data-scroll>
+        <div class="hero-content">
+            <h2>欢迎来到TimeRuins插件服</h2>
+            <p>一个充满创意、冒险和乐趣的Minecraft 1.21.4生存服务器，加入我们，一起建造、探索和生存！</p>
+            <a href="#download" class="btn">立即加入</a>
+        </div>
+    </section>
+
+    <!-- 服务器特色 -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">服务器特色</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
                     </div>
-                    <div class="profile-pic-back">
-                        <h3>教学理念</h3>
-                        <p>教育不是灌输，而是点燃火焰</p>
-                        <p>能救一点是一点</p>
+                    <h3>丰富插件</h3>
+                    <p>我们提供多种优质插件，包括季节系统、农耕机制改革等，让游戏体验更加丰富。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>活跃社区</h3>
+                    <p>友好的玩家社区，定期举办活动，结交志同道合的朋友，共同建设服务器。</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>多版本兼容</h3>
+                    <p>支持官方发布的所有正式版Minecraft，基岩版和Java版互通。不过为了减少新版本方块缺失带来的问题，建议使用1.21+进服。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务器信息 -->
+    <section class="server-info" id="server-info">
+        <div class="container">
+            <h2 class="section-title">服务器信息</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h3>服务器地址</h3>
+                    <p>timeruins.owo.vin</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-signal"></i>
+                    </div>
+                    <h3>最大在线人数</h3>
+                    <p>114514</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h3>游戏玩法</h3>
+                    <p>生存、冒险、养老，或者一起发展赤石科技</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>游戏版本</h3>
+                    <p>JavaEdition-1.21.4</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 下载区域 -->
+    <section class="download" id="download">
+        <div class="container">
+            <h2>开始你的冒险</h2>
+            <p>下载辅助模组整合包（可选），或者直接加入我们的服务器，开始你的Minecraft冒险之旅！</p>
+            <div class="download-buttons">
+                <a href="https://www.123pan.com/s/eJJdjv-VIVN3?source=pc" class="download-btn download-btn-primary" target="_blank">
+                    <i class="fas fa-download"></i> 下载整合包
+                </a>
+                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=mw6sTS626ezToNqXU9RUJgUSD9DUgfGG&authKey=Zs1c2EuBwjn5D3WFDS%2FOZq6qGlr4%2FAMgCUcb2%2For%2FTpXBItWus5J8yPatu6QyYSk&noverify=0&group_code=819341742" class="download-btn download-btn-secondary" target="_blank">
+                    <i class="fas fa-comments"></i> 加入QQ群
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 社区展示 -->
+    <section class="community" id="community">
+        <div class="container">
+            <h2 class="section-title">社区展示</h2>
+            <b>查看玩家在服务器上创造的精彩作品</b>
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="https://pic1.imgdb.cn/item/681588ad58cb8da5c8d799fa.jpg" alt="社区作品1">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://pic1.imgdb.cn/item/681588ae58cb8da5c8d799fd.jpg" alt="社区作品2">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://pic1.imgdb.cn/item/681588ae58cb8da5c8d799fb.jpg" alt="社区作品3">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://pic1.imgdb.cn/item/681588ae58cb8da5c8d799fc.jpg" alt="社区作品4">
+                    <div class="gallery-overlay">
+                        <i class="fas fa-search-plus"></i>
                     </div>
                 </div>
             </div>
-            <div class="profile-info">
-                <h2 class="subtitle">合八高级英语教师</h2>
-                <p>王轶群老师，合八资深英语教师，以其渊博学识、强烈个人观点和独特的教学风格著称。他的课堂既严肃又充满冷幽默，常以犀利的言辞一针见血地指出问题，同时又不失教育者的慈爱与关怀。</p>
-                <p class="tagline">" 能救一点是一点 "</p>
-            </div>
-        </section>
-        
-        <section class="search-section fade-in">
-            <div class="search-header">
-                <h3>语录库</h3>
-				<p>*分类由AI完成，结果仅供参考*</p>
-                <span id="quote-count">共n条语录</span>
-            </div>
-            <div class="search-input">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="输入关键词以检索语录...">
-                <!-- 搜索框功能 -->
-            </div>
-            
-            <div class="quote-categories">
-                <div class="category active">全部</div>
-                <div class="category">课堂点拨</div>
-                <div class="category">社会观察</div>
-                <div class="category">教育语林</div>
-                <div class="category">多元批判</div>
-                <div class="category">语言艺术</div>
-                <div class="category">地狱笑话</div>
-            </div>
-            
-            <div class="quote-container">
-                <!-- 语录卡片将通过JavaScript动态生成 -->
-            </div>
-            
-            <div class="pagination">
-                <div id="pagination-container">
-                    <!-- 上一页按钮 -->
-                    <div class="page-item prev-page">
-                        <i class="fas fa-chevron-left"></i>
-                    </div>
-                    <!-- 当前页码显示 -->
-                    <div class="page-item current-page active"></div>
-                    <!-- 下一页按钮 -->
-                    <div class="page-item next-page">
-                        <i class="fas fa-chevron-right"></i>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
+        </div>
+    </section>
+
+    <!-- 页脚 -->
     <footer>
-		<!-- 反馈按钮 -->
-        <a href="./add-page/feedback.html" target="_blank" id="feedback-link">
-	        <button id="feedback-button">
-	            <i class="fas fa-comment"></i>
-	            <span class="default-text">反馈</span>
-	            <span class="hover-text">没有找到所需？点此反馈</span>
-	        </button>
-        </a>
-		
-        <div class="footer-container">
-            <p style="color: #808080;">王轶群老师的语言世界 | 轶说新语</p>
-            <div class="social-icons">
-            </div>
+        <div class="footer-content">
+            <a href="https://afaristudio.netlify.app" target="_blank" class="footer-logo">
+                <img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
+            </a>
+            <p class="copyright">Powerd By Theceus</p>
+            <p class="copyright">© 2025 Afari Studio 保留所有权利</p>
         </div>
     </footer>
-    
+
     <script>
-		// 页面加载完成后隐藏加载动画
-		document.addEventListener('DOMContentLoaded', function() {
-			// 隐藏加载动画
-			window.addEventListener('load', function() {
-				const loader = document.getElementById('loader');
-				loader.style.opacity = '0';
-				setTimeout(() => {
-					loader.style.display = 'none';
-				}, 1000); // 1秒后完全隐藏
-			});
-			
-			// 显示元素
-			setTimeout(() => {
-				document.querySelectorAll('.fade-in').forEach((el, index) => {
-					setTimeout(() => {
-						el.classList.add('visible');
-					}, index * 200);
-				});
-			}, 300);
-			
-			// 更新语录数量显示
-			document.getElementById('quote-count').textContent = `共 ${quotes.length} 条语录`;
-			
-			// 初始化分页变量
-			const quotesPerPage = 5;
-			let currentPage = 1;
-			let totalPages = Math.ceil(quotes.length / quotesPerPage);
-			
-			// 更新分页按钮状态
-			function updatePagination() {
-				const prevButton = document.querySelector('.prev-page');
-				const nextButton = document.querySelector('.next-page');
-				const currentPageElement = document.querySelector('.current-page');
-				
-				// 更新当前页码显示
-				currentPageElement.textContent = `${currentPage} / ${totalPages}`;
-				
-				// 禁用/启用翻页按钮
-				prevButton.style.opacity = currentPage === 1 ? '0.5' : '1';
-				prevButton.style.cursor = currentPage === 1 ? 'default' : 'pointer';
-				
-				nextButton.style.opacity = currentPage === totalPages ? '0.5' : '1';
-				nextButton.style.cursor = currentPage === totalPages ? 'default' : 'pointer';
-			}
-			
-			// 渲染语录卡片
-			function renderQuotes(quotesToRender) {
-				const quotesContainer = document.querySelector('.quote-container');
-				quotesContainer.innerHTML = '';
-				
-				if (quotesToRender.length === 0) {
-					const noResults = document.createElement('p');
-					noResults.className = 'no-results';
-					noResults.textContent = '啊哦，没有找到哦...（；´д｀）ゞ';
-					quotesContainer.appendChild(noResults);
-					return;
-				}
-				
-				// 初始化分页
-				currentPage = 1;
-				totalPages = Math.ceil(quotesToRender.length / quotesPerPage);
-				
-				// 渲染第一页
-				renderPage(quotesToRender, currentPage);
-			}
-			
-			// 渲染特定页面的语录
-			function renderPage(quotesToRender, page) {
-				const quotesContainer = document.querySelector('.quote-container');
-				quotesContainer.innerHTML = '';
-				
-				if (quotesToRender.length === 0) {
-					const noResults = document.createElement('p');
-					noResults.className = 'no-results';
-					noResults.textContent = '啊哦，没有找到哦...（；´д｀）ゞ';
-					quotesContainer.appendChild(noResults);
-					return;
-				}
-				
-				const startIndex = (page - 1) * quotesPerPage;
-				const endIndex = Math.min(startIndex + quotesPerPage, quotesToRender.length);
-				const currentQuotes = quotesToRender.slice(startIndex, endIndex);
-				
-				currentQuotes.forEach((quote, index) => {
-					const quoteCard = document.createElement('div');
-					quoteCard.className = 'quote-card';
-					quoteCard.style.animationDelay = `${index * 0.1}s`;
-					quoteCard.innerHTML = `
-						<p class="quote-text">${quote.text}</p>
-						<div class="quote-tags">
-							${quote.tags.map(tag => `<span class="quote-tag">${tag}</span>`).join('')}
-						</div>
-					`;
-					
-					quotesContainer.appendChild(quoteCard);
-					
-					// 延迟添加可见类以实现淡入效果
-					setTimeout(() => {
-						quoteCard.classList.add('visible');
-					}, 100);
-				});
-				
-				currentPage = page;
-				updatePagination();
-			}
-			
-			// 分类点击事件
-			document.querySelectorAll('.category').forEach(category => {
-				category.addEventListener('click', function() {
-					document.querySelector('.category.active').classList.remove('active');
-					this.classList.add('active');
-					
-					const categoryName = this.textContent;
-					if (categoryName === '全部') {
-						document.getElementById('quote-count').textContent = `共 ${quotes.length} 条语录`;
-						renderQuotes(quotes);
-					} else {
-						const filteredQuotes = quotes.filter(quote => 
-							quote.tags.includes(categoryName) || 
-							quote.category === categoryName
-						);
-						document.getElementById('quote-count').textContent = `共 ${filteredQuotes.length} 条语录`;
-						renderQuotes(filteredQuotes);
-					}
-				});
-			});
-			
-			// 搜索和实时检索
-			const searchInput = document.querySelector('.search-input input');
-			let debounceTimer;
-			
-			searchInput.addEventListener('input', function() {
-				clearTimeout(debounceTimer);
-				debounceTimer = setTimeout(() => {
-					const searchTerm = searchInput.value.toLowerCase();
-					const quoteCount = document.getElementById('quote-count');
-					
-					if (searchTerm === '') {
-						quoteCount.textContent = `共 ${quotes.length} 条语录`;
-						renderQuotes(quotes);
-						return;
-					}
-					
-					const filteredQuotes = quotes.filter(quote => 
-						quote.text.toLowerCase().includes(searchTerm) || 
-						quote.tags.some(tag => tag.toLowerCase().includes(searchTerm)) ||
-						quote.category.toLowerCase().includes(searchTerm)
-					);
-					
-					quoteCount.textContent = `共 ${filteredQuotes.length} 条结果`;
-					renderQuotes(filteredQuotes);
-				}, 300);
-			});
-			
-			// 上一页点击事件
-			document.querySelector('.prev-page').addEventListener('click', () => {
-				if (currentPage > 1) {
-					currentPage--;
-					renderPage(quotes, currentPage);
-				}
-			});
-			
-			// 下一页点击事件
-			document.querySelector('.next-page').addEventListener('click', () => {
-				if (currentPage < totalPages) {
-					currentPage++;
-					renderPage(quotes, currentPage);
-				}
-			});
-			
-			// 初始化页面
-			renderQuotes(quotes);
-		});
-        
-        // 添加反馈按钮点击事件
-        document.getElementById('feedback-button').addEventListener('click', function() {
-            // 为按钮添加点击动画
-            this.classList.add('clicked');
+        // 添加页面加载完成后隐藏加载动画的代码
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader');
             setTimeout(() => {
-                this.classList.remove('clicked');
-            }, 300);
+                loader.classList.add('hidden');
+            }, 500); // 延迟500毫秒以确保所有内容都已加载
         });
 
-        // 添加按钮点击动画
-        document.getElementById('feedback-button').addEventListener('animationend', function() {
-            this.style.animation = 'none';
-        });
 		
-        // 王轶群老师语录数据
-		const quotes = [
-			{ 
-				text: "美国黑人就是这样，'因为我黑嘛，所以我坏'。",
-				tags: ["多元批判", "社会观察"],
-				category: "社会观察"
-			},
-			{
-				text: "水一百度就开，人一百度就死",
-				tags: ["语言艺术", "地狱笑话"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "不要加我好友，我一律不同意，我加的都是我真正的好友，有什么事到学校来找我，这只是我的工作。", 
-				tags: ["教育语林", "语言艺术"],
-				category: "教育语林"
-			},
-			{ 
-				text: "什么英语高考作文改革，别等到改革的时候你还在高考。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "有病就去医务室，抑郁记得吃药。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "什么 '老兵不死'，那只是在美化战争，老兵只会腐烂。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "不要都让我来讲，你们也要回答，又不是我参加高考。", 
-				tags: ["教育语林", "课堂点拨"],
-				category: "教育语林"
-			},
-			{ 
-				text: "你抑郁，你有什么资格抑郁。", 
-				tags: ["多元批判", "地狱笑话"],
-				category: "多元批判"
-			},
-			{ 
-				text: "It's necessary evil.", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "It's a shame.", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "那有的人做题，就是既没有常识，又没有人性。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "那边那个趴着的同学，叫什么什么的，对，就是你，你给我站一会，不要你回答了。", 
-				tags: ["语言艺术", "课堂点拨"],
-				category: "课堂点拨"
-			},
-			{ 
-				text: "不要总是神化高考，那只是一个文凭。", 
-				tags: ["教育语林", "多元批判"],
-				category: "多元批判"
-			},
-			{ 
-				text: "你在用手表操作什么，啊，好玩吗，啊？", 
-				tags: ["多元批判", "地狱笑话"],
-				category: "多元批判"
-			},
-			{ 
-				text: "想学的就记，不想学的随便。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "据我所知，现在很少有人留斜刘海了，也对，希特勒就喜欢留斜刘海。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "那个苹果耳机，刚拿到手是 airpods，丢了一个是 airpod，两个都丢了就只剩 air 了。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "和垃圾一起工作，这还很有暗喻的感觉。", 
-				tags: ["多元批判", "地狱笑话"],
-				category: "多元批判"
-			},
-			{ 
-				text: "就像罗斯福的一句话，还挺有名的，'The only fear we fear is fear itself.'", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "以前我当班主任的时候，班级还挺乱的，有几对公开谈恋爱的，我就让全班同学投票，男生和女生互相投票，就那些平时以为自己很帅的，一票都没有，多投一票那叫小三，我还让女生给那些男生写好话，到情人节那天挂出来看，让他们知道自己没什么了不起的。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "这个 AI 生成的图片已经算是政治正确了，除了那个电灯和电线，说是明朝和清朝也不为过，就像一个穿越者。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "美国的政治正确，首先就是种族，黑人嘛，因为觉得不公平，所以经常去 '零元购'。这个 ACT 也是，黑人觉得不公平，'我数学英语不好，你为什么要考'。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "我们来看这些所谓的预测卷，全都预测失败了，声称预测成功的，那都是在吹牛，要我说，预测 26 个字母，次次都准。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "你要说 '非 985，非 211，非双一流'，那也是 '三非'。", 
-				tags: ["教育语林", "多元批判"],
-				category: "多元批判"
-			},
-			{ 
-				text: "朝鲜人见到将军又蹦又跳，还流眼泪。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "就像马保国，接化发，马保国是唯一一个因失败而成功的男人。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "我们追求大，追求全，追求集中统一，这是我们的文化基因。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "没有人能在我的课上趴一节课。", 
-				tags: ["教育语林", "课堂点拨"],
-				category: "教育语林"
-			},
-			{ 
-				text: "我见过一个外教，是素食主义者，不用说，一看就知道，面有菜色。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "什么哲学，到最后还是玄学。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "从家长的角度，希望孩子天天课本都不离手，一看手机眼瞎了，一看电视眼瞎了，书本一天看到晚却没事。", 
-				tags: ["多元批判", "教育语林"],
-				category: "多元批判"
-			},
-			{ 
-				text: "中国人的一生都是关键点。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "这都是中国人自己的中式英语，不会被外国人卡脖子。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "所见即所得.", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "在线学习解决了在学校上课不能睡觉、睡觉不能躺着的问题，如今这批人也快大学毕业了，都在找工作。", 
-				tags: ["教育语林", "多元批判"],
-				category: "多元批判"
-			},
-			{ 
-				text: "什么美国队长都是源于英格兰神话贝格伍夫，就像现在的霸总最早都来源于《傲慢与偏见》。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "I think therefore I am.", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "英语是 less is more，而非汉语；每个词都说三遍，之后还喊口号，什么痛点、难点、发力点。", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "我都客客气气地请 AI 给我写文章，万一它以后接管世界了，希望能对我好一点。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "大学老师不一样，他们有免死金牌，可以翻旨翻墙。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "那边那个谁起来站一会，又进入绿色节能环保模式了。", 
-				tags: ["语言艺术", "课堂点拨"],
-				category: "课堂点拨"
-			},
-			{ 
-				text: "我们现在打开智学网看名单下面一行红字 '法律责任老师自负'。", 
-				tags: ["教育语林", "多元批判"],
-				category: "多元批判"
-			},
-			{ 
-				text: "复杂从句要先看大的结构再看小的，先看尼古拉二世再是列宁、斯大林、赫鲁晓夫。", 
-				tags: ["教育语林", "语言艺术"],
-				category: "教育语林"
-			},
-			{ 
-				text: "Ask not what your country can do for you.Ask what you can do for your country.", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "站一会，马上就要头点地了，杀头不过头点地。", 
-				tags: ["语言艺术", "课堂点拨"],
-				category: "课堂点拨"
-			},
-			{ 
-				text: "这个我讲过，我讲你不听，同学讲你不听，甚至是女同学讲你也不听，那你真是没救了。", 
-				tags: ["教育语林", "语言艺术"],
-				category: "教育语林"
-			},
-			{ 
-				text: "有的人获取信息只能从抖音，头条上获得，能认识字反而被骗个精光。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "微信微信，只能微微相信。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "艾宾浩斯曲线就是你在考试对看别人露出大半纸卷子，立即快速记忆，然后在草稿纸上记下来，及时巩固记忆，有的人在考试上是一眼万年啊，眼不花了，头不昏了，应激机制都在疯狂分泌肾上腺素。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "我那届的学生混得还不错，在人大研究 '新词'，他们就是专门写新词的团队，负责给国家领导人写，我说你混得还不错，他说：'我们是吃上了时代的红利，时间长了，说的话全是痛点难点发力点，既要又要还要……' 他说的话全是这样，让人听不下去，但他也不是有意，毕竟在这种环境下。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "我可以说 AI 比中央那帮造新词的更会写，很多人跟 AI 一样，就是个人机。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "这位同学的这个作文还用了福尔摩斯探案集里的斑点袋子案的情节。", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "有缺陷的才是人生，没缺陷的是梦，是妄想。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "你坐着！我没让你站！（某同学迟到）（同时）你现在才开始思考？你给我站着！", 
-				tags: ["语言艺术", "课堂点拨"],
-				category: "课堂点拨"
-			},
-			{ 
-				text: "'decorate' 这种就是荣誉满身的意思，在朝鲜，就是将军勋章满身啊，勋章墙，当然这个词是中性，我觉得是讽刺，看情况。", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "His left brain has nothing right, and his right brain has nothing left.（讽刺某位领导人）", 
-				tags: ["语言艺术", "多元批判"],
-				category: "语言艺术"
-			},
-			{ 
-				text: "饭后百步走，活不到十九。", 
-				tags: ["多元批判", "语言艺术"],
-				category: "多元批判"
-			},
-			{ 
-				text: "现在很流行 '上岸' 这个词，好像我们一直都生活在水里，一直生活在水深火热中，到底是谁把我们推下水的？", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "以前是 '因材施教'，现在学校有一点 '因材施压' 的意思。", 
-				tags: ["多元批判", "教育语林"],
-				category: "多元批判"
-			},
-			{ 
-				text: "经常有学生特立独行，穿奇装异服，归根结底原因是自卑。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "之前的康老师，是地道的合肥人，他讲合肥话太多被投诉了，转去干一些后勤工作，印印卷子。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "哪有什么三代、四代合肥人，你要是四五代还在合肥，那你可能混得不太好，然后在你的家乡被别人排斥最后越来土。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "史主任，不是有个史方亮语录 '东方不亮西方亮'，有人把他的头 P 在治国理政的头上，结果教育局专门管意识形态的找上来，现在越抓越严。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "这是一个以 cosplay 为特点的展览。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "我们就是要做人机，不要搞个性，高考就是筛选。", 
-				tags: ["多元批判", "教育语林"],
-				category: "多元批判"
-			},
-			{ 
-				text: "人家再差也是 110 分，能被批斗也是要有资格的。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "不能自娱自乐当土皇帝。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "在历史上对集中力量办大事的都是有先例的、集体农庄、人民公社什么的。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "现在人越来越机器化，反而机器越来越个性化，最后就是人机结合。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "'eye - rolling' 是什么意思？是看不起，你们现在可能想我们一身参味，来说教全体着自己的社会地位，想着我们早该退出历史舞台了…… 你们可能翻白眼是看不起，我们翻白眼，马上就要吐白沫了。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "现在 AI 对我们的影响谁也不知道，我可以肯定的是国家领导人也不知道。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "无价值不选题，无情景不命题，不思维不成题。", 
-				tags: ["教育语林", "多元批判"],
-				category: "教育语林"
-			},
-			{ 
-				text: "科大在合肥，很多大专技校也在合肥。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "选项绝对，就是绝对不对，高中培养的是思维，而不像初中那样光刷题就行，除了政治课上讲的都是对的，否则你要付出很大的代价。", 
-				tags: ["教育语林", "多元批判"],
-				category: "多元批判"
-			},
-			{ 
-				text: "他给你植入一个观念，这是思想钢印，是绝对不能违抗的观点。", 
-				tags: ["多元批判", "教育语林"],
-				category: "多元批判"
-			},
-			{ 
-				text: "整个中年都是危机，只有到老年才能解决。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			},
-			{ 
-				text: "减肥你让人家跑马拉松？再胖也不是死罪，死胖子跑完马拉松就真死了。", 
-				tags: ["多元批判", "社会观察"],
-				category: "多元批判"
-			}
-		];
-		//六大类：课堂点拨、社会观察、教育语林、多元批判、语言艺术、地狱笑话
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // 图片查看器
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const imgSrc = this.querySelector('img').src;
+                const overlay = document.createElement('div');
+                overlay.style.position = 'fixed';
+                overlay.style.top = '0';
+                overlay.style.left = '0';
+                overlay.style.width = '100%';
+                overlay.style.height = '100%';
+                overlay.style.backgroundColor = 'rgba(0,0,0,0.9)';
+                overlay.style.display = 'flex';
+                overlay.style.alignItems = 'center';
+                overlay.style.justifyContent = 'center';
+                overlay.style.zIndex = '1000';
+                overlay.style.cursor = 'pointer';
+                
+                const largeImg = document.createElement('img');
+                largeImg.src = imgSrc;
+                largeImg.style.maxWidth = '90%';
+                largeImg.style.maxHeight = '90%';
+                largeImg.style.objectFit = 'contain';
+                
+                overlay.appendChild(largeImg);
+                document.body.appendChild(overlay);
+                
+                overlay.addEventListener('click', function() {
+                    document.body.removeChild(overlay);
+                });
+            });
+        });
+
+        // 汉堡菜单功能
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // 点击导航链接后关闭菜单
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // 点击页面其他区域关闭菜单
+        document.addEventListener('click', (e) => {
+            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            }
+        });
+        
+        // 滚动动画触发
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('[data-scroll]').forEach((element) => {
+            observer.observe(element);
+        });
     </script>
 </body>
 </html>
