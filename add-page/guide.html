@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TimeRuins 进服教程</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            background: linear-gradient(to right, #050032, #003204);
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+		
+		/* 添加加载动画样式 */
+		.loader {
+			position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    z-index: 9999;
+		    transition: opacity 0.5s ease-out;
+		    opacity: 1;
+			background: linear-gradient(45deg, #006464, #536400);
+		}
+		
+		.loader-content {
+		    text-align: center;
+		}
+		
+		.loader-icon {
+				position: relative;
+				width: 100px;
+				height: 100px;
+				animation: rotate 8s linear infinite;
+				border: 10px dashed rgba(0, 0, 0, .2);
+				box-shadow: 0 0 0 10px rgba(0, 0, 0, .5), inset 0 0 0 10px rgba(0, 0, 0, .5);
+		}
+		
+		@keyframes rotate {
+			0% {
+				transform: rotate(360deg);
+			}
+			
+			100% {
+				transform: rotate(0deg);
+			}
+		}
+		
+		.loader-icon span {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			display: block;
+			overflow: hidden;
+		}
+		
+		.loader-icon span:before {
+			content: '';
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			border: none;
+			border-top: 10px solid #50e3c2;
+			animation: animate 2s linear infinite;
+		}
+		
+		@keyframes animate {
+			0% {
+				left: -100%;
+			}
+			
+			25% {
+				left: 0%;
+			}
+			
+			50%,100% {
+				left: 100%;
+			}
+		}
+		
+		.loader-icon span:nth-child(1) {
+			transform: rotate(0deg);
+		}
+		
+		.loader-icon span:nth-child(2) {
+			transform: rotate(90deg);
+		}
+		
+		.loader-icon span:nth-child(3) {
+			transform: rotate(180deg);
+		}
+		
+		.loader-icon span:nth-child(4) {
+			transform: rotate(270deg);
+		}
+		
+		.loader-icon span:nth-child(1):before {
+			animation-delay: 0s;
+		}
+		
+		.loader-icon span:nth-child(2):before {
+			animation-delay: 0.5s;
+		}
+		
+		.loader-icon span:nth-child(3):before {
+			animation-delay: 1s;
+		}
+		
+		.loader-icon span:nth-child(4):before {
+			animation-delay: 1.5s;
+		}
+		
+		.loader-text {
+		    margin-top: 50px;
+		    color: #50e3c2;
+		    font-size: 18px;
+		}
+		
+		.loader.hidden {
+		    opacity: 0;
+		    pointer-events: none;
+		}
+        
+        /* 导航栏 */
+        nav {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 150;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0px;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.03);
+            filter: drop-shadow(0 0 10px rgba(80, 227, 194, 0.5));
+        }
+        
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: #50e3c2;
+            text-shadow: 0 0 5px rgba(80, 227, 194, 0.5);
+        }
+        
+        /* 主要内容区 */
+        .tutorial-section {
+            padding: 60px 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            margin-top: 40px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .tutorial-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .tutorial-header h2 {
+            font-size: 36px;
+            color: #50e3c2;
+            margin-bottom: 15px;
+        }
+        
+        .tutorial-header p {
+            font-size: 18px;
+            color: #b0b0b0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* 标签页导航 */
+        .tab-navigation {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(80, 227, 194, 0.3);
+        }
+        
+        .tab-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            color: #b0b0b0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .tab-button.active {
+            color: #50e3c2;
+            font-weight: bold;
+            border-bottom: 3px solid #50e3c2;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        /* 步骤样式 */
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .step {
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            border-left: 3px solid #50e3c2;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .step:last-child {
+            margin-bottom: 0;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .step-title {
+            font-size: 22px;
+            color: #50e3c2;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-icon {
+            font-size: 24px;
+            color: #50e3c2;
+            margin-right: 15px;
+            text-align: center;
+            width: 30px; /* 设置固定宽度，确保图标和文字对齐 */
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #50e3c2;
+            color: #000;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+        
+        .step-content {
+            color: #e0e0e0;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+        
+        .step-content p {
+            margin-bottom: 10px;
+        }
+        
+        .step-content ul, .step-content ol {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .step-content code {
+            background-color: rgba(80, 227, 194, 0.2);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            color: #50e3c2;
+        }
+        
+        /* 装饰元素 */
+        .decoration {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            opacity: 0.1;
+            z-index: -1;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: #000;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, filter 0.3s ease; /* 添加过渡效果 */
+        }
+        
+        .footer-logo:hover {
+            transform: scale(1.03); /* 添加悬停时的缩放效果 */
+            filter: drop-shadow(0 0 15px rgba(80, 227, 194, 1.0)); /* 增大光晕范围 */
+        }
+        
+        .footer-logo img {
+            height: 75px;
+        }
+        
+        .copyright {
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+            }
+            
+            .logo {
+                margin-bottom: 15px;
+            }
+            
+            .tab-navigation {
+                flex-direction: column;
+            }
+            
+            .tutorial-header h2 {
+                font-size: 28px;
+            }
+            
+            .tutorial-header p {
+                font-size: 16px;
+            }
+            
+            .step-icon {
+                font-size: 20px;
+            }
+            
+            .step-number {
+                width: 25px;
+                height: 25px;
+                line-height: 25px;
+                font-size: 14px;
+            }
+            
+            .step-title {
+                font-size: 20px;
+            }
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            background-color: #50e3c2;
+            color: #000;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 10px rgba(80, 227, 194, 0.5);
+            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #3cd0a9;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 10px rgba(80, 227, 194, 0.8);
+        }
+        
+        .btn:active {
+            transform: scale(0.95);
+        }
+		
+		/* 全局超链接样式 */
+        a {
+            color: #4d96e3; /* 默认颜色 - 浅绿色 */
+            transition: color 0.3s ease; /* 添加颜色过渡效果 */
+        }
+
+        /* 超链接悬停状态 */
+        a:hover {
+            color: #36be9a; /* 悬停时颜色 - 更深的绿色 */
+        }
+
+        /* 超链接访问过状态 */
+        a:visited {
+            color: #4d96e3; /* 访问过后颜色 - 紫色 */
+        }
+
+        /* 超链接活动状态（点击时） */
+        a:active {
+            color: #e74c3c; /* 点击时颜色 - 红色 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 添加加载动画 -->
+    <div class="loader">
+        <div class="loader-content">
+            <div class="loader-icon">
+				<span></span>
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+            <div class="loader-text">Loading...</div>
+        </div>
+    </div>
+	
+    <!-- 导航栏 -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">
+                <img src="https://pic1.imgdb.cn/item/67ef1a360ba3d5a1d7ec7540.png" alt="TimeRuins Logo">
+                <h1>TimeRuins 进服教程</h1>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <section class="tutorial-section">
+            <div class="tutorial-header">
+                <h2>如何进服</h2>
+                <p>按照以下步骤，快速连接到我们的 TimeRuins 服务器，开始您的冒险之旅！</p>
+            </div>
+            
+            <!-- 标签页导航 -->
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="java-edition">Java版进服教程</button>
+                <button class="tab-button" data-tab="bedrock-edition">基岩版进服教程</button>
+            </div>
+            
+            <!-- Java版教程内容 -->
+            <div id="java-edition" class="tab-content active">
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            <i class="fas fa-download step-icon"></i>
+                            <span>下载启动器</span>
+                        </div>
+                        <div class="step-content">
+                            <p>前往 <a href="https://www.minecraft.net/zh-hans/download" target="_blank">Minecraft官网</a> 下载并安装官方启动器，或者下载第三方启动器，例如 <a href="https://hmcl.huangyuhui.net" target="_blank">HMCL</a> 和 <a href="https://pcl.ruanmao.net" target="_blank">PCL2</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            <i class="fas fa-file-archive step-icon"></i>
+                            <span>下载整合包</span>
+                        </div>
+                        <div class="step-content">
+                            <p>点击下方按钮下载我们的定制整合包（可选，但建议下载）</p>
+                            <p><a href="https://www.123pan.com/s/eJJdjv-VIVN3?source=pc" target="_blank" class="btn"><i class="fas fa-download"></i> 下载整合包</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            <i class="fas fa-folder-open step-icon"></i>
+                            <span>安装整合包</span>
+                        </div>
+                        <div class="step-content">
+                            <p>1. 打开 Minecraft 启动器，找到"添加整合包"或"安装整合包"页面。</p>
+                            <p>2. 点击"导入本地整合包"或"从本地导入整合包"，选择已下载的整合包文件进行安装。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">4</span>
+                            <i class="fas fa-server step-icon"></i>
+                            <span>添加服务器</span>
+                        </div>
+                        <div class="step-content">
+                            <p>1. 登录您的 Minecraft 账户（正版或离线）并启动游戏。</p>
+                            <p>2. 在主菜单中选择"多人游戏"，然后点击"添加服务器"。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">5</span>
+                            <i class="fas fa-pencil-alt step-icon"></i>
+                            <span>填写服务器信息</span>
+                        </div>
+                        <div class="step-content">
+                            <p>在弹出的对话框中填写以下信息：</p>
+                            <ul>
+                                <li><strong>服务器名称:</strong> TimeRuins</li>
+                                <li><strong>服务器地址:</strong> <code>timeruins.owo.vin</code></li>
+                            </ul>
+                            <p>点击"完成"保存设置。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">6</span>
+                            <i class="fas fa-user-plus step-icon"></i>
+                            <span>账户绑定</span>
+                        </div>
+                        <div class="step-content">
+                            <p>加入服务器后，您需要按照系统提示完成账户绑定：</p>
+                            <ol>
+                                <li>加入我们的 <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=Vd56%2B5%2BZ/EvH1Ju0dbaqN6i3lvFrpgzAcMy25eyE%2BY2K%2BqBm%2Be7NSh427lSs/KJ0&busi_data=eyJncm91cENvZGUiOiI4MTkzNDE3NDIiLCJ0b2tlbiI6IkJweUpZd3JCVVN4SHRNdDA5YzR2cElpUFFsb1ZSOXp6SmJTNTFTWktJaDkyUGJsQS9ld2pDclNzV2FCTEw5clIiLCJ1aW4iOiIzNjY3ODk3NTc4In0=&data=0pr1N9X0YCl8bgttS2lZCCw1NsOx80lrwqIdfJYgPa3kJ9axcR8PcEjzEFten114fMgc1zYW3neLnfjbskzCcT5Ky4bZ-DNGNCDsUKsiya8&svctype=5&tempid=h5_group_info" target="_blank">QQ群</a></li>
+                                <li>在群内发送 <code>账户绑定口令（如“绑定 123456”）</code> 完成绑定（验证码已通过游戏屏幕发送给您）</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">7</span>
+                            <i class="fas fa-check-circle step-icon"></i>
+                            <span>完成设置</span>
+                        </div>
+                        <div class="step-content">
+                            <p>重新连接服务器后，按照游戏内提示完成注册和登录。</p>
+                            <p>恭喜！您已完成设置，现在可以开始您的冒险了！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 基岩版教程内容 -->
+            <div id="bedrock-edition" class="tab-content">
+                <div class="steps-container">
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">1</span>
+                            <i class="fas fa-download step-icon"></i>
+                            <span>下载基岩版客户端</span>
+                        </div>
+                        <div class="step-content">
+                            <p>确保您已安装最新版本的 Minecraft 基岩版（适用于 Windows 10、Xbox、PlayStation、Nintendo Switch 或移动设备）。对于手机玩家，您可以前往 <a href="https://mcbedl.com/#/" target="_blank">MCDL官网</a> 下载最新版安装包。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">2</span>
+                            <i class="fas fa-server step-icon"></i>
+                            <span>添加服务器</span>
+                        </div>
+                        <div class="step-content">
+                            <p>1. 启动游戏并登录您的 Microsoft 账户。</p>
+                            <p>2. 找到"多人游戏"，然后点击"添加服务器"。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">3</span>
+                            <i class="fas fa-pencil-alt step-icon"></i>
+                            <span>填写服务器信息</span>
+                        </div>
+                        <div class="step-content">
+                            <p>在弹出的对话框中填写以下信息：</p>
+                            <ul>
+                                <li><strong>服务器名称:</strong> TimeRuins</li>
+                                <li><strong>服务器地址:</strong> <code>timeruins.frp.wtf</code></li>
+                                <li><strong>端口:</strong> <code>31145</code></li>
+                            </ul>
+                            <p>点击"完成"保存设置。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">4</span>
+                            <i class="fas fa-user-plus step-icon"></i>
+                            <span>账户绑定</span>
+                        </div>
+                        <div class="step-content">
+                            <p>加入服务器后，您需要按照系统提示完成账户绑定：</p>
+                            <ol>
+                                <li>加入我们的 <a href="https://qun.qq.com/universal-share/share?ac=1&authKey=Vd56%2B5%2BZ/EvH1Ju0dbaqN6i3lvFrpgzAcMy25eyE%2BY2K%2BqBm%2Be7NSh427lSs/KJ0&busi_data=eyJncm91cENvZGUiOiI4MTkzNDE3NDIiLCJ0b2tlbiI6IkJweUpZd3JCVVN4SHRNdDA5YzR2cElpUFFsb1ZSOXp6SmJTNTFTWktJaDkyUGJsQS9ld2pDclNzV2FCTEw5clIiLCJ1aW4iOiIzNjY3ODk3NTc4In0=&data=0pr1N9X0YCl8bgttS2lZCCw1NsOx80lrwqIdfJYgPa3kJ9axcR8PcEjzEFten114fMgc1zYW3neLnfjbskzCcT5Ky4bZ-DNGNCDsUKsiya8&svctype=5&tempid=h5_group_info" target="_blank">QQ群</a></li>
+                                <li>在群内发送 <code>账户绑定口令（如“绑定 123456”）</code> 完成绑定（验证码已通过游戏屏幕发送给您）</li>
+                            </ol>
+                        </div>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-title">
+                            <span class="step-number">5</span>
+                            <i class="fas fa-check-circle step-icon"></i>
+                            <span>完成设置</span>
+                        </div>
+                        <div class="step-content">
+                            <p>重新连接服务器后，按照游戏内提示完成注册和登录。</p>
+                            <p>恭喜！您已完成设置，现在可以开始您的冒险了！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-content">
+            <a href="https://afaristudio.netlify.app" target="_blank" class="footer-logo">
+                <img src="https://pic1.imgdb.cn/item/67f1f55c0ba3d5a1d7ee525b.png" alt="工作室Logo">
+            </a>
+            <p class="copyright">Powerd By Theceus</p>
+            <p class="copyright">© 2025 Afari Studio 保留所有权利</p>
+        </div>
+    </footer>
+
+    <script>
+        // 标签页切换功能
+        document.querySelectorAll('.tab-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // 移除所有激活状态
+                document.querySelectorAll('.tab-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // 添加激活状态到当前标签
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+		
+		// 添加页面加载完成后隐藏加载动画的代码
+		window.addEventListener('load', function() {
+		    const loader = document.querySelector('.loader');
+		    setTimeout(() => {
+		        loader.classList.add('hidden');
+		    }, 500); // 延迟500毫秒以确保所有内容都已加载
+		});
+    </script>
+</body>
+</html>
