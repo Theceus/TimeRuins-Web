@@ -532,117 +532,121 @@
         }
         
         /* 响应式设计 */
-        @media (max-width: 992px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                align-items: center;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background-color: rgba(0, 0, 0, 0.95);
-                width: 100%;
-                padding: 20px 0;
-                box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-                max-height: 0;
-                overflow: hidden;
-                transition: all 0.3s ease;
-            }
-            
-            .hamburger {
-                display: block;
-            }
-            
-            .nav-links.active {
-                display: flex;
-                max-height: 500px;
-                animation: slideDown 0.3s ease-out forwards;
-            }
-            
-            @keyframes slideDown {
-                from {
-                    max-height: 0;
-                    opacity: 0;
-                }
-                to {
-                    max-height: 500px;
-                    opacity: 1;
-                }
-            }
-            
-            .hamburger.active div:nth-child(1) {
-                transform: rotate(45deg) translate(5px, 6.5px);
-            }
-            
-            .hamburger.active div:nth-child(2) {
-                opacity: 0;
-            }
-            
-            .hamburger.active div:nth-child(3) {
-                transform: rotate(-45deg) translate(5px, -6.5px);
-            }
-            
-            .nav-links li {
-                margin: 15px 0;
-            }
-                        
-            .hero h2 {
-                font-size: 36px;
-            }
-            
-            .hero p {
-                font-size: 18px;
-            }
-            
-            .section-title {
-                font-size: 28px;
-            }
-            
-            .download-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .download-btn {
-                width: 80%;
-                margin-bottom: 15px;
-            }
-            
-            .features-grid, .info-grid, .gallery {
-                grid-template-columns: 1fr;
-            }
-            
-            .feature-card, .info-card {
-                padding: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .feature-icon, .info-icon {
-                font-size: 36px;
-            }
-            
-            .footer-logo img {
-                height: 60px;
-            }
-            
-            .hero-content {
-                padding: 20px;
-            }
-            
-            .gallery-item {
-                height: 180px;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 16px;
-            }
-            
-            .hero {
-                background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.5));
-            }
-        }
+		@media (max-width: 992px) {
+			.nav-links {
+				display: none;
+				flex-direction: column;
+				align-items: center;
+				position: absolute;
+				top: 70px;
+				left: 0;
+				right: 0;
+				background-color: rgba(0, 0, 0, 0.95);
+				width: 100%;
+				padding: 20px 0;
+				box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+				max-height: 0;
+				overflow: hidden;
+				transition: all 0.3s ease;
+			}
+			
+			.hamburger {
+				display: block;
+			}
+			
+			.nav-links.active {
+				display: flex;
+				max-height: 500px;
+				animation: slideDown 0.3s ease-out forwards;
+			}
+			
+			@keyframes slideDown {
+				from {
+					max-height: 0;
+					opacity: 0;
+				}
+				to {
+					max-height: 500px;
+					opacity: 1;
+				}
+			}
+			
+			.hamburger.active div:nth-child(1) {
+				transform: rotate(45deg) translate(5px, 6.5px);
+			}
+			
+			.hamburger.active div:nth-child(2) {
+				opacity: 0;
+			}
+			
+			.hamburger.active div:nth-child(3) {
+				transform: rotate(-45deg) translate(5px, -6.5px);
+			}
+			
+			.nav-links li {
+				margin: 15px 0;
+			}
+							
+			.hero h2 {
+				font-size: 36px;
+			}
+			
+			.hero p {
+				font-size: 18px;
+			}
+			
+			.section-title {
+				font-size: 28px;
+			}
+			
+			.download-buttons {
+				flex-direction: column;
+				align-items: center;
+			}
+			
+			.download-btn {
+				width: 80%;
+				margin-bottom: 15px;
+			}
+			
+			.features-grid, .info-grid, .gallery {
+				grid-template-columns: 1fr;
+			}
+			
+			.feature-card, .info-card {
+				padding: 20px;
+				margin-bottom: 20px;
+			}
+			
+			.feature-icon, .info-icon {
+				font-size: 36px;
+			}
+			
+			.footer-logo img {
+				height: 60px;
+			}
+			
+			.hero-content {
+				padding: 20px;
+			}
+			
+			.gallery-item {
+				height: 180px;
+			}
+			
+			.btn {
+				padding: 10px 20px;
+				font-size: 16px;
+			}
+			
+			.hero {
+				background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.25)), url('https://pic1.imgdb.cn/item/68184cb258cb8da5c8dcab4f.webp');
+				background-size: cover;
+				background-position: center;
+				background-attachment: scroll;
+			}
+			
+		}
     </style>
 </head>
 <body>
